@@ -40,7 +40,54 @@ Create a new array called sortedPeople of type [`Human`] that is the people arra
 
 </br> </br>
 
+````
+class Human: CustomStringConvertible, Equatable, Comparable {
+    static func < (lhs: Human, rhs: Human) -> Bool {
+        return lhs.age < rhs.age
+    }
+    
+    static func == (lhs: Human, rhs: Human) -> Bool {
+        return lhs.age == rhs.age
+        return lhs.name == rhs.name
+    }
+    
+    var name: String
+    var age: Int
+    var description: String
+    
+    init(name: String, age: Int, description: String) {
+    self.name = name
+    self.age = age
+    self.description = description
+    }
+}
 
+let angela = Human(name: "Angela", age: 23, description: "")
+let mark = Human(name: "Mark", age: 38, description: "")
+
+print(angela)
+print(mark)
+
+if angela == mark {
+    print("same person")
+    } else {
+    print("different person")
+}
+
+if angela != mark {
+print("different people")
+} else {
+print("same person")
+}
+
+let johanne = Human(name: "Johanne", age: 64, description: "")
+let lily = Human(name: "Lily", age: 12, description: "")
+let sally = Human(name: "Sally", age: 72, description: "")
+
+let people = [angela, mark, johanne, lily, sally]
+let sortedPeople = people
+let peopleSortedByAge = sortedPeople.sorted()
+````
 ## Question 2
 
 a. Create a protocol called `Vehicle` with two requirements:
@@ -57,7 +104,38 @@ then call drive().
 
 </br> </br>
 
+```
 
+protocol Vehicle {
+    var numberOfWheels: Int { get }
+    func drive()
+}
+
+struct Car: Vehicle {
+var numberOfWheels = 4
+
+func drive() {
+print("Vroom, vroom!")
+}
+}
+
+var ford = Car(numberOfWheels: 4)
+
+print(ford.numberOfWheels)
+print(ford.drive())
+
+struct Bike: Vehicle {
+    var numberOfWheels = 2
+
+    func drive() {
+        print("Begin pedaling!")
+    }
+}
+
+var bianchi = Bike(numberOfWheels: 2)
+print(bianchi.numberOfWheels)
+print(bianchi.drive())
+```
 ## Question 3
 // Given the below two protocols, create a struct for penguin(a flightless bird) and an eagle.
 
@@ -65,12 +143,23 @@ Give your structs some properties and have them conform to the appropriate proto
 
 ```swift
 protocol Bird {
- var name: String { get }
- var canFly: Bool { get }
+    var name: String { get }
+    var canFly: Bool { get }
 }
 
 protocol Flyable {
- var airspeedVelocity: Double { get }
+    var airspeedVelocity: Double { get }
+}
+
+struct Penguin: Bird {
+    var name: String
+    var canFly: Bool
+}
+
+struct Eagle: Bird, Flyable {
+    var name: String
+    var canFly: Bool
+    var airspeedVelocity: Double
 }
 ```
 
@@ -82,20 +171,26 @@ a. Create a protocol called `Transformation`.  The protocol should specify a mut
 
 b. Make an enum called `SuperHero` that conforms to `Transformation` with cases `notHulk` and `hulk`
 
-c. Create an instance of it named `bruceBanner`. Make it so that when the transform function is called that bruceBanner turns from
+!!!!!!!!!? c. Create an instance of it named `bruceBanner`. Make it so that when the transform function is called that bruceBanner turns from
 `.notHulk` to `.hulk.``
 
 ```swift
-enum SuperHero: Transformation {
-    // write code here.
+
+protocol Transformation {
+    mutating func transform ()
 }
 
-// Example Output:
+
+enum SuperHero: Transformation {
+    func transform() {
+        <#code#>
+    }
+    
+case notHulk
+case hulk
+}
+
 var bruceBanner = SuperHero.notHulk
-
-bruceBanner.transform() . // hulk
-
-bruceBanner.transform()  // notHulk
 ```
 
 </br> </br>
@@ -117,7 +212,31 @@ f. Put an instance of each of your classes in an array.
 
 g. Iterate over the array and have them print their `message` property
 
+````
+protocol Communication {
+var message: String { get }
+}
 
+class Cow: Communication {
+var message: String {
+return "moo"
+}
+}
+
+class Dog: Communication {
+var message: String {
+return "woof"
+}
+}
+
+class Cat: Communication {
+var message: String {
+return "meow"
+}
+}
+
+let array = (Cow, Dog, Cat)
+````
 ## Question 6
 
 The HeartRateReceiver class below represents a very simplified example of a class dedicated to receiving information from fitness tracking hardware with monitoring heart rate. The function startHeartRateMonitoringExample will generate random heart rates and assign them to currentHR, simulating how an instance of HeartRateReceiver may pick up on new heart rate readings at specific intervals.
